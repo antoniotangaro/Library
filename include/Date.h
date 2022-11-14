@@ -20,9 +20,6 @@ public:
     Date(int year, int month, int day);
 
     std::string toStringISO8601() const;
-    std::string format(std::string format) const;
-
-    // TODO: Define inline
     int getDay() const {
         return day_;
     }

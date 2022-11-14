@@ -5,7 +5,6 @@
 #include <stdexcept>
 #include <ostream>
 
-
 #include "ISBN10.h"
 #include "Date.h"
 

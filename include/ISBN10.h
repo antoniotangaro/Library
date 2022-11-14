@@ -1,7 +1,3 @@
-//
-// Created by Mouhi on 14/11/2022.
-//
-
 #ifndef LIBRARY_ISBN10_H
 #define LIBRARY_ISBN10_H
 
@@ -9,9 +5,8 @@
 
 class ISBN10 {
 private:
-    int isbn_[];
-
     static constexpr int ISBN10_SIZE = 10;
+    int isbn_[ISBN10_SIZE];
 
 public:
     // controllo solo del formato
