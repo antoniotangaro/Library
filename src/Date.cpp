@@ -11,19 +11,21 @@ Date::Date(const Date &other) {
     day_ = other.day_;
 }
 
-Date Date::fromISO8601(std::string date) {
- std::string delimiter = "/";
- int parsedDate[] = {0,0,0};
- int index = 0;
- int pos = 0, oldPos = 0;
- std::string token;
- while((pos = date.find(delimiter) != std::string::npos)){
-    token = date.substr(oldPos, pos);
-    parsedDate[index] = std::stoi(token);
-    index++;
-    oldPos = pos + delimiter.length();
- }
- return {parsedDate[0],parsedDate[1],parsedDate[2]};
+Date::Date(std::string date) {
+    std::string delimiter = "/";
+    int parsedDate[] = {0, 0, 0};
+    int index = 0;
+    int pos = 0, oldPos = 0;
+    std::string token;
+    while ((pos = date.find(delimiter) != std::string::npos)) {
+        token = date.substr(oldPos, pos);
+        parsedDate[index] = std::stoi(token);
+        index++;
+        oldPos = pos + delimiter.length();
+    }
+    year_ = parsedDate[0];
+    month_ = parsedDate[1];
+    day_ = parsedDate[2];
 }
 
 std::string Date::toStringISO8601() const {
@@ -34,8 +36,8 @@ std::string Date::toStringISO8601() const {
     std::string day = std::to_string(day_);
     // TODO: refactor this, extract the padding to a function
     return std::string(4 - std::min((int) year.size(), 4), '0').append(year) + "/"
-    +std::string(2 - std::min((int) month.size(), 2), '0').append(month) + "/"
-    +std::string(2 - std::min((int) day.size(), 2), '0').append(day);
+           + std::string(2 - std::min((int) month.size(), 2), '0').append(month) + "/"
+           + std::string(2 - std::min((int) day.size(), 2), '0').append(day);
 }
 
 void Date::setDate(int year, int month, int day) {
@@ -126,16 +128,19 @@ Date &Date::operator--() {
     *this = getPreviousDate(date);
     return *this;
 }
+
 Date &Date::operator--(int) {
     Date date = *this;
     *this = getPreviousDate(date);
     return date;
 }
+
 Date &Date::operator++(int) {
     Date date = *this;
     *this = getNextDate(date);
     return date;
 }
+
 Date Date::getNextDate(const Date &date) {
     if (isValidDate(date.getYear(), date.getMonth(), date.getDay() + 1))
         return Date{date.getYear(), date.getMonth(), date.getDay() + 1};

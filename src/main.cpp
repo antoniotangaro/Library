@@ -126,7 +126,8 @@ void testDateClass() {
 int main() {
 //    testDateClass();
 cout << "here";
-Date dt = Date::fromISO8601("2022/11/15");
+Date dt = Date{"2022/11/15"};
+dt = Date{2022,11,15};
 cout << dt << std::endl;
     return 0;
 }

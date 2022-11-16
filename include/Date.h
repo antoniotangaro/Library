@@ -30,12 +30,14 @@ public:
     static Date getNextDate(Date const &date);
     static Date getPreviousDate(Date const &date);
 
-    static Date fromISO8601(std::string date);
+    static Date& fromISO8601(std::string date);
     static Date fromDDMMYYYY(std::string date);
 
     Date(const Date &other);
 
     Date(int year, int month, int day);
+
+    Date(std::string dateISO8601);
 
     std::string toStringISO8601() const;
 
