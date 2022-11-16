@@ -1,22 +1,22 @@
 #include "Book.h"
 
-ISBN10 Book::getIsbn() {
+ISBN10 Book::getIsbn() const {
     return isbn_;
 }
 
-std::string Book::getTitle() {
+std::string Book::getTitle() const {
     return title_;
 }
 
-std::string Book::getFirstname() {
+std::string Book::getFirstname() const {
     return firstname_;
 }
 
-std::string Book::getLastname() {
+std::string Book::getLastname() const {
     return lastname_;
 }
 
-Date Book::getCopyrightDate() {
+Date Book::getCopyrightDate() const {
     return copyrightDate_;
 }
 
@@ -53,18 +53,20 @@ void Book::setCopyrightDate(const Date &copyrightDate) {
     copyrightDate_ = copyrightDate;
 }
 
-std::ostream &operator<<(std::ostream &out, const Book &book) {
-//    return out << book.title_ << '\n' << book.firstname_ << " " << book.lastname_ << "\n" << book.isbn_ << "\n" << book.copyrightDate_;
-    return out;
+
+std::ostream &operator<<(std::ostream &out, Book &book) {
+    return out << book.getTitle() << '\n' << book.getFirstname() << " " << book.getLastname() << "\n"
+               //    << book.getIsbn() << "\n"
+               << book.getCopyrightDate();
 }
 
-//bool operator==(const Book &book, const Book &other) {
-//    return book.isbn_ == other.isbn_;
-//}
+bool operator==(const Book &book, const Book &other) {
+    return book.getIsbn() == other.getIsbn();
+}
 
-//bool operator!=(const Book &book, const Book &other) {
-//    return !(book == other);
-//}
+bool operator!=(const Book &book, const Book &other) {
+    return !(book == other);
+}
 
 
 

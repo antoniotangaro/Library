@@ -37,10 +37,10 @@ private:
     int calculateCheckDigit();
 };
 
-//bool operator==(ISBN10 const &isbn10, ISBN10 const &other);
-//
-//bool operator!=(ISBN10 const &isbn10, ISBN10 const &other);
-//
-//bool operator<<(std::ostream &out, ISBN10 const &other);
+bool operator==(ISBN10 const &isbn10, ISBN10 const &other);
+
+bool operator!=(ISBN10 const &isbn10, ISBN10 const &other);
+
+bool operator<<(std::ostream &out, ISBN10 const &other);
 
 #endif //LIBRARY_ISBN10_H
