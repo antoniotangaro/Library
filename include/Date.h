@@ -2,24 +2,46 @@
 #define LIBRARY_DATE_H
 
 #include <string>
+#include <iostream> // only for debug
 #include <stdexcept>
+#include <cmath>
 
 class Date {
 private:
     int day_;
     int month_;
     int year_;
-public:
-    static bool isLeapYear();
-    static bool isValidDate(int year, int month, int day);
-    static std::string getDayName(Date const &date);
+    /*
+     * Returns
+     * <0 if date < other
+     * =0 if date = other
+     * >0 if date > other
+     * */
 
 public:
+    static constexpr int MONTH_LENGHTS[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+    static bool isLeapYear(int year);
+
+    static int toJulianDay(Date const &date);
+
+    static Date fromJulianDay(int julianDay);
+    static int compareDates(Date const &date, Date const &other);
+
+    static bool isValidDate(int year, int month, int day);
+    // needed to overload unary operators
+    static Date getNextDate(Date const &date);
+    static Date getPreviousDate(Date const &date);
+
+    static Date fromISO8601(std::string date);
+    static Date fromDDMMYYYY(std::string date);
+
     Date(const Date &other);
 
     Date(int year, int month, int day);
 
     std::string toStringISO8601() const;
+
     int getDay() const {
         return day_;
     }
@@ -32,37 +54,47 @@ public:
         return year_;
     }
 
-    Date &setDate(int year, int month, int day);
+    void setDate(int year, int month, int day);
 
-    Date &setYear(int year);
+    void setYear(int year);
 
-    Date &setMonth(int month);
+    void setMonth(int month);
 
-    Date &setDay(int day);
+    void setDay(int day);
 
     // Optional to implement, if we have time we could implement these
     // Pay attention to leap years and bounds
-    Date &addDays(int days);
+    void addDays(int days);
+    void addMonths(int months);
+    void addYears(int years);
 
-    Date &addMonths(int months);
-
-    Date &addYear(int years);
-
+    // difference in days
     int diff(Date &other);
 
-// NB: To overload +,- it's better define Duration class to handle durations
-    friend bool operator<=(Date const &date, Date const &other);
-
-    friend bool operator==(Date const &date, Date const &other);
-
-    friend bool operator>(Date const &date, Date const &other);
-
-    friend bool operator>=(Date const &date, Date const &other);
-
-    friend bool operator<(Date const &date, Date const &other);
+    // NB: To overload +,- it's better define Duration class to handle durations
+    Date& operator=(Date const &other);
+    Date& operator++();
+    Date& operator--();
+    Date& operator++(int); // postfix
+    Date& operator--(int); // postfix
 
 
 };
+
+std::ostream &operator<<(std::ostream &os, Date const &date);
+std::istream &operator>>(std::istream &in, Date const &date);
+
+bool operator==(Date const &date, Date const &other);
+
+bool operator!=(Date const &date, Date const &other);
+
+bool operator>(Date const &date, Date const &other);
+
+bool operator>=(Date const &date, Date const &other);
+
+bool operator<(Date const &date, Date const &other);
+
+bool operator<=(Date const &date, Date const &other);
 
 // we could use an enumeration to represent weekdays and months
 #endif //LIBRARY_DATE_H

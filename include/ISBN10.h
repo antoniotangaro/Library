@@ -11,7 +11,9 @@ private:
 public:
     // controllo solo del formato
     static bool isValidISBN10Format(std::string isbn10);
+
     static bool isValidISBN10Format(ISBN10 const &isbn10);
+
 public:
     ISBN10(std::string const &isbn10);
 
@@ -28,14 +30,17 @@ public:
     // calculates check digit and compares it with checkDigit_
     bool isValidISBN();
 
-    friend bool operator==(ISBN10 const &isbn10, ISBN10 const &other);
-    friend bool operator!=(ISBN10 const &isbn10, ISBN10 const &other);
-    friend bool operator<<(std::ostream& out, ISBN10 const &other);
-
 
 private:
-    ISBN10& stringToISBN10(std::string isbn10);
+    ISBN10 &stringToISBN10(std::string isbn10);
+
     int calculateCheckDigit();
 };
+
+//bool operator==(ISBN10 const &isbn10, ISBN10 const &other);
+//
+//bool operator!=(ISBN10 const &isbn10, ISBN10 const &other);
+//
+//bool operator<<(std::ostream &out, ISBN10 const &other);
 
 #endif //LIBRARY_ISBN10_H
