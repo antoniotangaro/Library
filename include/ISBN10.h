@@ -4,38 +4,48 @@
 #include <string>
 
 class ISBN10 {
-private:
+
+    /*
+        ISBN in the format "n_1 - n_2 - n_3 - x"
+        
+        n_1 represents the group identifier of the country/region.
+
+        n_2 represents the author of the book (publish identifier).
+
+        n_3 represents the edition of the book (title identifier).
+        
+        x represents the control number (check digit).
+    */
+
     static constexpr int ISBN10_SIZE = 10;
-    int isbn_[ISBN10_SIZE];
+    int x, n_1, n_2, n_3;
+    int isbn_local_variable[ISBN10_SIZE];
 
-public:
-    // controllo solo del formato
-    static bool isValidISBN10Format(std::string isbn10);
-    static bool isValidISBN10Format(ISBN10 const &isbn10);
-public:
-    ISBN10(std::string const &isbn10);
+    public:
+        ISBN10 (std::string isbn);
 
-    ISBN10(int groupIdentifier, int publisherIdentifier, int titleIdentifier, int checkDigit);
+        bool FormatValidation(std::string isbn, char a[13]);    //format Validation (return true if the format is valid, false otherwise).
+    
+    public:
+        std::string get_isbn();   //returns ISBN in a string, separating the four characters by a '-' character.
 
-    int getGroupIdentifier() const;
+        int getGroupIdentifier();
 
-    int getPublisherIdentifier() const;
+        int getPublisherIdentifier();
 
-    int getTitleIdentifier() const;
+        int getTitleIdentifier();
 
-    int getCheckDigit() const;
+        int getCheckDigit();
 
-    // calculates check digit and compares it with checkDigit_
-    bool isValidISBN();
+        void set_isbn10(std::string isbn);    //assigns a new value to the ISBN.
 
-    friend bool operator==(ISBN10 const &isbn10, ISBN10 const &other);
-    friend bool operator!=(ISBN10 const &isbn10, ISBN10 const &other);
-    friend bool operator<<(std::ostream& out, ISBN10 const &other);
+        bool equals(std::string isbn);  //checks whether two ISBNs are the same (returns true if they are the same, false if they are different).
 
 
-private:
-    ISBN10& stringToISBN10(std::string isbn10);
-    int calculateCheckDigit();
+    private:
+        bool string_toISBN10(std::string str);  //method that converts the string to an array of int (useful for management), returns true if the operation was successful.
+        void set_ISBN10(int n1, int n2, int n3, int y);
+        int calculateCheckDigit(char a[13]);
 };
 
 #endif //LIBRARY_ISBN10_H
