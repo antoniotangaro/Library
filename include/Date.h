@@ -3,8 +3,10 @@
 
 #include <string>
 #include <iostream> // only for debug
+#include <vector>
 #include <stdexcept>
 #include <cmath>
+#include <algorithm>
 
 class Date {
 private:
@@ -26,12 +28,13 @@ public:
     static int compareDates(Date const &date, Date const &other);
 
     static bool isValidDate(int year, int month, int day);
+
     // needed to overload unary operators
     static Date getNextDate(Date const &date);
+
     static Date getPreviousDate(Date const &date);
 
-    static Date& fromISO8601(std::string date);
-    static Date fromDDMMYYYY(std::string date);
+    Date();
 
     Date(const Date &other);
 
@@ -60,17 +63,22 @@ public:
     void setMonth(int month);
 
     void setDay(int day);
+
     // NB: To overload +,- it's better define Duration class to handle durations
-    Date& operator=(Date const &other);
-    Date& operator++();
-    Date& operator--();
-    Date& operator++(int); // postfix
-    Date& operator--(int); // postfix
+    Date &operator=(Date const &other);
+
+    Date &operator++();
+
+    Date &operator--();
+
+    Date &operator++(int); // postfix
+    Date &operator--(int); // postfix
 
 
 };
 
 std::ostream &operator<<(std::ostream &os, Date const &date);
+
 std::istream &operator>>(std::istream &in, Date const &date);
 
 bool operator==(Date const &date, Date const &other);
@@ -85,5 +93,11 @@ bool operator<(Date const &date, Date const &other);
 
 bool operator<=(Date const &date, Date const &other);
 
+// helper functions
+std::vector<std::string> split(std::string s, std::string delimiter);
+
+bool isNumber(std::string str);
+
+std::string padWithZeros(const std::string &str, int size);
 // we could use an enumeration to represent weekdays and months
 #endif //LIBRARY_DATE_H

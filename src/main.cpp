@@ -11,6 +11,8 @@ void testDateClass() {
     Date date2 = Date{date1};
     cout << "date1: " << date1 << '\n';
     cout << "date2 from date1: " << date2 << '\n';
+    cout << "date from string '2022/11/01': " << Date{"2022/11/1"} << '\n';
+
 
     // Testing setters
 
@@ -25,6 +27,10 @@ void testDateClass() {
 
     date1.setYear(2001);
     cout << "setYear(2001): ";
+    cout << date1 << '\n';
+
+    date1.setDate(2001,02,20);
+    cout << "setDate(2001,02,20): ";
     cout << date1 << '\n';
 
     // Testing getters
@@ -123,11 +129,31 @@ void testDateClass() {
 
 }
 
+void testISBN10Class(){
+// Testing constructors
+
+// Testing setters
+
+// Testing getters
+
+// Testing operators
+}
+void testBookClass(){
+
+    // Testing constructors
+
+    // Testing setters
+
+    // Testing getters
+
+    // Testing lending functions
+
+    // Testing operators
+}
+
 int main() {
-//    testDateClass();
-cout << "here";
-Date dt = Date{"2022/11/15"};
-dt = Date{2022,11,15};
-cout << dt << std::endl;
+    testDateClass();
+    testISBN10Class();
+    testBookClass();
     return 0;
 }

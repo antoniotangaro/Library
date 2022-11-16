@@ -1,5 +1,10 @@
 #include "Date.h"
-#include <algorithm>
+
+Date::Date(){
+    year_ = 0;
+    month_ = 0;
+    day_ = 0;
+}
 
 Date::Date(int year, int month, int day) : day_(day), month_(month), year_(year) {
     if (!isValidDate(year, month, day)) throw std::invalid_argument("Invalid Date");
@@ -12,20 +17,22 @@ Date::Date(const Date &other) {
 }
 
 Date::Date(std::string date) {
-    std::string delimiter = "/";
-    int parsedDate[] = {0, 0, 0};
-    int index = 0;
-    int pos = 0, oldPos = 0;
-    std::string token;
-    while ((pos = date.find(delimiter) != std::string::npos)) {
-        token = date.substr(oldPos, pos);
-        parsedDate[index] = std::stoi(token);
-        index++;
-        oldPos = pos + delimiter.length();
+    std::vector<std::string> parsed = split(date, "/");
+
+    if (parsed.size() != 3) throw std::invalid_argument("Invalid date format");
+    for (std::string &s: parsed) {
+        if (!isNumber(s)) throw std::invalid_argument("Invalid number format");
     }
-    year_ = parsedDate[0];
-    month_ = parsedDate[1];
-    day_ = parsedDate[2];
+    int year = std::stoi(parsed.at(0));
+    int month = std::stoi(parsed.at(1));
+    int day = std::stoi(parsed.at(2));
+
+    if (!isValidDate(year, month, day)) throw std::invalid_argument("Invalid date");
+
+    year_ = {year};
+    month_ = {month};
+    day_ = {day};
+
 }
 
 std::string Date::toStringISO8601() const {
@@ -35,9 +42,9 @@ std::string Date::toStringISO8601() const {
     std::string month = std::to_string(month_);
     std::string day = std::to_string(day_);
     // TODO: refactor this, extract the padding to a function
-    return std::string(4 - std::min((int) year.size(), 4), '0').append(year) + "/"
-           + std::string(2 - std::min((int) month.size(), 2), '0').append(month) + "/"
-           + std::string(2 - std::min((int) day.size(), 2), '0').append(day);
+    return padWithZeros(year, 4) + "/"
+           + padWithZeros(month, 2) + "/"
+           + padWithZeros(day, 2);
 }
 
 void Date::setDate(int year, int month, int day) {
@@ -164,4 +171,28 @@ Date Date::getPreviousDate(const Date &date) {
 
 std::ostream &operator<<(std::ostream &os, Date const &date) {
     return os << date.toStringISO8601();
+}
+
+std::vector<std::string> split(std::string s, std::string delimiter) {
+    int pos_start = 0, pos_end, delim_len = delimiter.length();
+    std::string token;
+    std::vector<std::string> res;
+
+    while ((pos_end = s.find(delimiter, pos_start)) != std::string::npos) {
+        token = s.substr(pos_start, pos_end - pos_start);
+        pos_start = pos_end + delim_len;
+        res.push_back(token);
+    }
+
+    res.push_back(s.substr(pos_start));
+    return res;
+
+}
+
+bool isNumber(std::string str) {
+    return std::all_of(str.begin(), str.end(), [](char ch) { return std::isdigit(ch) != 0; });
+}
+
+std::string padWithZeros(const std::string& str, int size) {
+    return std::string(size - std::min((int) str.size(), size), '0').append(str);
 }
