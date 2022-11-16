@@ -11,21 +11,18 @@ private:
     int day_;
     int month_;
     int year_;
-    /*
-     * Returns
-     * <0 if date < other
-     * =0 if date = other
-     * >0 if date > other
-     * */
 
 public:
     static constexpr int MONTH_LENGHTS[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
     static bool isLeapYear(int year);
 
-    static int toJulianDay(Date const &date);
-
-    static Date fromJulianDay(int julianDay);
+    /*
+ * Returns
+ * <0 if date < other
+ * =0 if date = other
+ * >0 if date > other
+ * */
     static int compareDates(Date const &date, Date const &other);
 
     static bool isValidDate(int year, int month, int day);
@@ -61,16 +58,6 @@ public:
     void setMonth(int month);
 
     void setDay(int day);
-
-    // Optional to implement, if we have time we could implement these
-    // Pay attention to leap years and bounds
-    void addDays(int days);
-    void addMonths(int months);
-    void addYears(int years);
-
-    // difference in days
-    int diff(Date &other);
-
     // NB: To overload +,- it's better define Duration class to handle durations
     Date& operator=(Date const &other);
     Date& operator++();

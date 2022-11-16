@@ -58,13 +58,13 @@ std::ostream &operator<<(std::ostream &out, const Book &book) {
     return out;
 }
 
-bool operator==(const Book &book, const Book &other) {
-    return book.isbn_ == other.isbn_;
-}
+//bool operator==(const Book &book, const Book &other) {
+//    return book.isbn_ == other.isbn_;
+//}
 
-bool operator!=(const Book &book, const Book &other) {
-    return !(book == other);
-}
+//bool operator!=(const Book &book, const Book &other) {
+//    return !(book == other);
+//}
 
 
 
